@@ -15,6 +15,7 @@ func _handle_start_click() -> void:
 	
 func _handle_options_click() -> void:
 	print("Options clicked")
+	get_tree().change_scene_to_file("res://Scenes/OptionsMenu/Options.tscn")
 	
 func _handle_quit_click() -> void:
-	print("Quit clicked")
+	get_tree().quit()

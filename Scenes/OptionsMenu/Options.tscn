@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://vic1y48b3m3b"]
+
+[ext_resource type="Script" uid="uid://caar4kw1e5oc" path="res://Scenes/OptionsMenu/options.gd" id="1_rmjre"]
+
+[node name="Options" type="Control" unique_id=325016019]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rmjre")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1294647928]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Title" type="Label" parent="VBoxContainer" unique_id=1653191696]
+layout_mode = 2
+text = "Options (TODO)"
+
+[node name="MainMenuButton" type="Button" parent="VBoxContainer" unique_id=409980781]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back to Main Menu"
