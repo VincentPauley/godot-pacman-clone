@@ -3,8 +3,14 @@
 [ext_resource type="Script" uid="uid://g6rjlodqihjv" path="res://Scenes/shared/player.gd" id="1_npmbd"]
 [ext_resource type="Texture2D" uid="uid://coe5bgvsxddon" path="res://Assets/pac-man.png" id="1_pndld"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_lhbp4"]
+radius = 16.0
+
 [node name="Player" type="CharacterBody2D" unique_id=2067347563]
 script = ExtResource("1_npmbd")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=733695432]
 texture = ExtResource("1_pndld")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=125478925]
+shape = SubResource("CircleShape2D_lhbp4")
