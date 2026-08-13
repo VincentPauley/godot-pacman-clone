@@ -1,5 +1,21 @@
 [gd_scene format=3 uid="uid://c3kj5ykjhfyd0"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4thvv"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.82281184, 0.82272094, 7.70092e-07, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+expand_margin_left = 15.0
+expand_margin_top = 15.0
+expand_margin_right = 15.0
+expand_margin_bottom = 15.0
+
 [node name="Main Menu" type="Control" unique_id=1145385801]
 layout_mode = 3
 anchors_preset = 15
@@ -24,7 +40,8 @@ layout_mode = 2
 size_flags_vertical = 3
 color = Color(0.01750143, 1.6484782e-06, 0.15482843, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/BackgroundColor" unique_id=262639959]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/BackgroundColor" unique_id=1797615042]
+custom_minimum_size = Vector2(600, 400)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -32,27 +49,37 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -300.0
-offset_top = -300.0
+offset_top = -200.0
 offset_right = 300.0
-offset_bottom = 300.0
+offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4thvv")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/BackgroundColor/PanelContainer" unique_id=262639959]
+layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="TitleContainer" type="HBoxContainer" parent="VBoxContainer/BackgroundColor/VBoxContainer" unique_id=358502559]
+[node name="TitleContainer" type="HBoxContainer" parent="VBoxContainer/BackgroundColor/PanelContainer/VBoxContainer" unique_id=358502559]
 custom_minimum_size = Vector2(600, 0)
 layout_mode = 2
 alignment = 1
 
-[node name="Title" type="Label" parent="VBoxContainer/BackgroundColor/VBoxContainer/TitleContainer" unique_id=108735882]
+[node name="Title" type="Label" parent="VBoxContainer/BackgroundColor/PanelContainer/VBoxContainer/TitleContainer" unique_id=108735882]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 28
 text = "Pac Man"
 
-[node name="StartButton" type="Button" parent="VBoxContainer/BackgroundColor/VBoxContainer" unique_id=1113837109]
+[node name="StartButton" type="Button" parent="VBoxContainer/BackgroundColor/PanelContainer/VBoxContainer" unique_id=1113837109]
 layout_mode = 2
 text = "Start Game
 "
 
-[node name="QuitButton" type="Button" parent="VBoxContainer/BackgroundColor/VBoxContainer" unique_id=2016994867]
+[node name="OptionsButton" type="Button" parent="VBoxContainer/BackgroundColor/PanelContainer/VBoxContainer" unique_id=2000594427]
+layout_mode = 2
+text = "Options"
+
+[node name="QuitButton" type="Button" parent="VBoxContainer/BackgroundColor/PanelContainer/VBoxContainer" unique_id=2016994867]
 layout_mode = 2
 text = "Quit"
