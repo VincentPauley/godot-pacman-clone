@@ -11,10 +11,9 @@ func _ready() -> void:
 	quit_button.pressed.connect(_handle_quit_click)
 
 func _handle_start_click() -> void:
-	print("Start clicked")
+	get_tree().change_scene_to_file("res://Scenes/Level_1/Level_1.tscn")
 	
 func _handle_options_click() -> void:
-	print("Options clicked")
 	get_tree().change_scene_to_file("res://Scenes/OptionsMenu/Options.tscn")
 	
 func _handle_quit_click() -> void:
