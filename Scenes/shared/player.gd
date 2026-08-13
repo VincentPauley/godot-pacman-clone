@@ -6,7 +6,7 @@ const JUMP_VELOCITY = -400.0
 
 
 func _ready() -> void:
-	position = Vector2(300, 300)
+	pass
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
