@@ -1,21 +1,11 @@
 [gd_scene format=4 uid="uid://dosxin2xm1tm8"]
 
 [ext_resource type="Script" uid="uid://bsfnj2eq0dlji" path="res://Scenes/Level_1/level_1.gd" id="1_mcxs2"]
-[ext_resource type="Texture2D" uid="uid://cebw8mb8x25jl" path="res://Assets/pellet-marker.png" id="2_3mfh7"]
 [ext_resource type="PackedScene" uid="uid://dx2rb7nc0jmkh" path="res://Scenes/shared/pellet.tscn" id="2_i4pw6"]
 [ext_resource type="PackedScene" uid="uid://hueg0o3ospxg" path="res://Scenes/shared/player.tscn" id="3_7ke4i"]
 [ext_resource type="AudioStream" uid="uid://t0r8jjlypuah" path="res://Assets/New Recording 3.wav" id="6_ukg34"]
 [ext_resource type="PackedScene" uid="uid://ckueg6s04bth4" path="res://Scenes/Level_1/hud.tscn" id="7_q4rrd"]
 [ext_resource type="Texture2D" uid="uid://dp7j4w5ddhxdu" path="res://Assets/layout-tilesheet.png" id="8_x6sy3"]
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mcxs2"]
-texture = ExtResource("2_3mfh7")
-texture_region_size = Vector2i(44, 44)
-0:0/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_7ljuc"]
-tile_size = Vector2i(44, 44)
-sources/0 = SubResource("TileSetAtlasSource_mcxs2")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1fv7x"]
 resource_name = "layout_tiles"
@@ -24,6 +14,7 @@ texture_region_size = Vector2i(44, 44)
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
+2:0/0/custom_data_1 = true
 2:1/0 = 0
 1:1/0 = 0
 0:1/0 = 0
@@ -33,14 +24,17 @@ texture_region_size = Vector2i(44, 44)
 tile_size = Vector2i(44, 44)
 custom_data_layer_0/name = "player_start"
 custom_data_layer_0/type = 1
-custom_data_layer_1/name = ""
-custom_data_layer_1/type = 0
+custom_data_layer_1/name = "pellet"
+custom_data_layer_1/type = 1
 sources/0 = SubResource("TileSetAtlasSource_1fv7x")
 
 [node name="Level1" type="Node2D" unique_id=894020577]
 script = ExtResource("1_mcxs2")
 pellet_scene = ExtResource("2_i4pw6")
 player = ExtResource("3_7ke4i")
+
+[node name="HUD" parent="." unique_id=600250608 instance=ExtResource("7_q4rrd")]
+unique_name_in_owner = true
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=323741533]
 custom_minimum_size = Vector2(836, 836)
@@ -50,19 +44,11 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0, 0, 0, 1)
 
-[node name="PelletMarkers" type="TileMapLayer" parent="." unique_id=970599456]
-unique_name_in_owner = true
-tile_map_data = PackedByteArray("AAACAAIAAAAAAAAAAAADAAIAAAAAAAAAAAAEAAIAAAAAAAAAAAACAAQAAAAAAAAAAAADAAQAAAAAAAAAAAAEAAMAAAAAAAAAAAAEAAQAAAAAAAAAAAAEAAUAAAAAAAAAAAAEAAYAAAAAAAAAAAAEAAcAAAAAAAAAAAAEAAgAAAAAAAAAAAAEAAkAAAAAAAAAAAAEAAoAAAAAAAAAAAAEAAsAAAAAAAAAAAAEAAwAAAAAAAAAAAAEAA0AAAAAAAAAAAAEAA4AAAAAAAAAAAAEAA8AAAAAAAAAAAAEABAAAAAAAAAAAAACAA4AAAAAAAAAAAADAA4AAAAAAAAAAAACABAAAAAAAAAAAAADABAAAAAAAAAAAAAFABAAAAAAAAAAAAAGABAAAAAAAAAAAAAHABAAAAAAAAAAAAAHAA8AAAAAAAAAAAAIAA8AAAAAAAAAAAAKAA8AAAAAAAAAAAALAA8AAAAAAAAAAAALABAAAAAAAAAAAAAMABAAAAAAAAAAAAANABAAAAAAAAAAAAAOABAAAAAAAAAAAAAOAA8AAAAAAAAAAAAOAA4AAAAAAAAAAAAPAA4AAAAAAAAAAAAQAA4AAAAAAAAAAAAQABAAAAAAAAAAAAAPABAAAAAAAAAAAAAOAA0AAAAAAAAAAAAOAAwAAAAAAAAAAAAOAAsAAAAAAAAAAAAOAAoAAAAAAAAAAAAOAAkAAAAAAAAAAAAPAAkAAAAAAAAAAAAQAAkAAAAAAAAAAAARAAkAAAAAAAAAAAASAAkAAAAAAAAAAAAOAAgAAAAAAAAAAAANAAgAAAAAAAAAAAAMAAgAAAAAAAAAAAAMAAkAAAAAAAAAAAAMAAoAAAAAAAAAAAAMAAsAAAAAAAAAAAAMAAwAAAAAAAAAAAAMAA0AAAAAAAAAAAAMAA4AAAAAAAAAAAALAA4AAAAAAAAAAAAHAA4AAAAAAAAAAAAGAA4AAAAAAAAAAAAFAAwAAAAAAAAAAAAGAAwAAAAAAAAAAAAHAAwAAAAAAAAAAAAIAAwAAAAAAAAAAAAJAAwAAAAAAAAAAAAKAAwAAAAAAAAAAAALAAwAAAAAAAAAAAAGAA0AAAAAAAAAAAAGAAsAAAAAAAAAAAAGAAoAAAAAAAAAAAAGAAkAAAAAAAAAAAAGAAgAAAAAAAAAAAAGAAcAAAAAAAAAAAAFAAgAAAAAAAAAAAADAAkAAAAAAAAAAAAHAAcAAAAAAAAAAAAIAAcAAAAAAAAAAAAJAAcAAAAAAAAAAAAKAAcAAAAAAAAAAAALAAcAAAAAAAAAAAAMAAcAAAAAAAAAAAAOAAcAAAAAAAAAAAAOAAYAAAAAAAAAAAAOAAUAAAAAAAAAAAAOAAQAAAAAAAAAAAAOAAMAAAAAAAAAAAAOAAIAAAAAAAAAAAAPAAIAAAAAAAAAAAAQAAIAAAAAAAAAAAAQAAQAAAAAAAAAAAAPAAQAAAAAAAAAAAANAAQAAAAAAAAAAAAMAAQAAAAAAAAAAAAMAAUAAAAAAAAAAAALAAUAAAAAAAAAAAAKAAUAAAAAAAAAAAAJAAUAAAAAAAAAAAAIAAUAAAAAAAAAAAAHAAUAAAAAAAAAAAAGAAUAAAAAAAAAAAAJAAYAAAAAAAAAAAAIAAQAAAAAAAAAAAAIAAMAAAAAAAAAAAAIAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAAGAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAQAAAAAAAAAAAAGAAQAAAAAAAAAAAAKAAMAAAAAAAAAAAAKAAIAAAAAAAAAAAALAAIAAAAAAAAAAAAMAAIAAAAAAAAAAAANAAIAAAAAAAAAAAAKAAQAAAAAAAAAAAA=")
-tile_set = SubResource("TileSet_7ljuc")
-
 [node name="Pellets" type="Node2D" parent="." unique_id=1883941325]
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1330906680]
 stream = ExtResource("6_ukg34")
 autoplay = true
-
-[node name="HUD" parent="." unique_id=600250608 instance=ExtResource("7_q4rrd")]
-unique_name_in_owner = true
 
 [node name="LevelLayout" type="TileMapLayer" parent="." unique_id=283694637]
 unique_name_in_owner = true
