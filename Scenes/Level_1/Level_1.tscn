@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cebw8mb8x25jl" path="res://Assets/pellet-marker.png" id="2_3mfh7"]
 [ext_resource type="PackedScene" uid="uid://dx2rb7nc0jmkh" path="res://Scenes/shared/pellet.tscn" id="2_i4pw6"]
 [ext_resource type="PackedScene" uid="uid://hueg0o3ospxg" path="res://Scenes/shared/player.tscn" id="3_7ke4i"]
+[ext_resource type="AudioStream" uid="uid://t0r8jjlypuah" path="res://Assets/New Recording 3.wav" id="6_ukg34"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3mfh7"]
 texture = ExtResource("1_dj4gi")
@@ -52,3 +53,7 @@ tile_map_data = PackedByteArray("AAACAAIAAAAAAAAAAAADAAIAAAAAAAAAAAAEAAIAAAAAAAA
 tile_set = SubResource("TileSet_7ljuc")
 
 [node name="Pellets" type="Node2D" parent="." unique_id=1883941325]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1330906680]
+stream = ExtResource("6_ukg34")
+autoplay = true
