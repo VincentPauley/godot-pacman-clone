@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var pellet_scene: PackedScene # < reference pellet.tscn in inspector
+@export var player: PackedScene
 
 @onready var pellet_marker_tiles = %PelletMarkers
 
@@ -14,6 +15,10 @@ func _ready() -> void:
 		
 	# no need to show the actual markers
 	pellet_marker_tiles.visible = false
+	
+	# add player to scene like so
+	var dynamic_player = player.instantiate()
+	add_child(dynamic_player)
 		
 		
 

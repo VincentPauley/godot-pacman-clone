@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://hueg0o3ospxg"]
+
+[ext_resource type="Script" uid="uid://g6rjlodqihjv" path="res://Scenes/shared/player.gd" id="1_npmbd"]
+[ext_resource type="Texture2D" uid="uid://coe5bgvsxddon" path="res://Assets/pac-man.png" id="1_pndld"]
+
+[node name="Player" type="CharacterBody2D" unique_id=2067347563]
+script = ExtResource("1_npmbd")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=733695432]
+texture = ExtResource("1_pndld")
