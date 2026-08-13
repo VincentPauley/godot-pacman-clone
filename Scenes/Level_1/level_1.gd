@@ -14,14 +14,7 @@ func _ready() -> void:
 	
 	var tiles_by_type = get_tiles_by_type()
 	
-	for pellet_cell in tiles_by_type['pellet_cells']:
-		var pellet_scene_insert = pellet_scene.instantiate()
-		pellet_scene_insert.position = level_layout.map_to_local(pellet_cell)
-		add_child(pellet_scene_insert)
-	
-		
-	# no need to show the actual markers
-	#pellet_marker_tiles.visible = false
+	_place_pellet_scenes(tiles_by_type['pellet_cells'])
 	
 	# add player to scene like so
 	var dynamic_player = player.instantiate()
@@ -29,6 +22,14 @@ func _ready() -> void:
 	if player_start_position.size() > 0:
 		dynamic_player.position = level_layout.map_to_local(player_start_position[0])
 		add_child(dynamic_player)
+		
+# place tiles on appropriate cells and remove placeholders
+func _place_pellet_scenes(pellet_cells: Array[Vector2i]) -> void:
+	for pellet_cell in pellet_cells:
+		var pellet_scene_insert = pellet_scene.instantiate()
+		pellet_scene_insert.position = level_layout.map_to_local(pellet_cell)
+		level_layout.erase_cell(pellet_cell)
+		add_child(pellet_scene_insert)
 
 # TODO: project followup: ask if this is typical architecture or not
 # comb layout and distribute all attributes accordingly

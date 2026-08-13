@@ -41,9 +41,3 @@ Resolution: 836X836
 
 remake wall tiles to be smaller visually but make collision shape the full
 44. this way characters can be 44 and have the space needed to move.
-
-Character
-
-    - CharacterBody2D
-        -Sprite2D
-        -CollisionShape2D
