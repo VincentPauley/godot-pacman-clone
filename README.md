@@ -6,9 +6,9 @@ Project to test engine familiarity and learn a few new things.
 
 Tile Units based on screen shot: 17 X 17 (add a 1 tile border around the whole play area, 19X19)
 
-tile size 60X60
+tile size 44X44, * 18:
 
-Resolution: 1140X1140
+Resolution: 836X836
 
 ## Systems
 
