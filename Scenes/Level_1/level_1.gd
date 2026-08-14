@@ -26,6 +26,8 @@ func _place_pellet_scenes(pellet_cells: Array[Vector2i]) -> void:
 func _place_player_at_start(start_cell: Vector2i) -> void:
 	var dynamic_player = player.instantiate()
 	dynamic_player.position = level_layout.map_to_local(start_cell)
+	# for this game player scene needs to know the layout to understand movement capabilities
+	dynamic_player.tile_layout = level_layout
 	level_layout.erase_cell(start_cell)
 	add_child(dynamic_player)
 
