@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 @export var tile_layout: TileMapLayer
 
-const SPEED = 200.0
+const SPEED = 15.0
 
 enum Direction { NONE, UP, DOWN, LEFT, RIGHT }
 
@@ -22,7 +22,7 @@ const DIRECTION_VECTORS = {
 var direction = Vector2i(-1, 0)
 
 func _ready() -> void:
-	print(_get_current_tile())
+	pass
 
 	
 	
@@ -42,6 +42,12 @@ func _process_input_direction() -> void:
 			input_stack.append(dir)
 		elif Input.is_action_just_released(dir):
 			input_stack.erase(dir) # remove when released
+			
+	
+	
+
+	
+	
 
 
 func _physics_process(delta: float) -> void:
@@ -63,5 +69,15 @@ func _physics_process(delta: float) -> void:
 	if current_direction != Direction.NONE:
 		var movement_vector = Vector2(DIRECTION_VECTORS[current_direction])
 		global_position += movement_vector * SPEED * delta
+		
+	var current_cell = _get_current_tile()
+	
+	print("current cell:")
+	print(current_cell)
+	
+	var target_cell: Vector2i = current_cell + DIRECTION_VECTORS[current_direction]
+	
+	print("target cell:")
+	print(target_cell)
 		
 	move_and_slide()
