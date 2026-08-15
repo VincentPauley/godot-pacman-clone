@@ -4,7 +4,6 @@ extends CharacterBody2D
 @export var tile_layout: TileMapLayer
 
 const SPEED = 200.0
-const JUMP_VELOCITY = -400.0
 
 enum Direction { NONE, UP, DOWN, LEFT, RIGHT }
 
@@ -12,7 +11,7 @@ var current_direction: Direction = Direction.LEFT
 var queued_direction: Direction = Direction.NONE
 
 # Pac-Man cannot move in diagonals, only one direction at a time, setting up
-# directions this way rather than velocity allows finite control for that
+# directions this way rather than allows finite control for that
 const DIRECTION_VECTORS = {
 	Direction.UP: Vector2i(0, -1),
 	Direction.DOWN: Vector2i(0, 1),
@@ -24,7 +23,7 @@ var direction = Vector2i(-1, 0)
 
 func _ready() -> void:
 	print(_get_current_tile())
-	print(velocity)
+
 	
 	
 # use the tilemap and player's local position to determine the tile they are currently over
@@ -65,13 +64,4 @@ func _physics_process(delta: float) -> void:
 		var movement_vector = Vector2(DIRECTION_VECTORS[current_direction])
 		global_position += movement_vector * SPEED * delta
 		
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	#var direction := Input.get_axis("ui_left", "ui_right")
-	#if direction:
-		#velocity.x = direction * SPEED
-	#else:
-		#velocity.x = move_toward(velocity.x, 0, SPEED)
-
 	move_and_slide()
