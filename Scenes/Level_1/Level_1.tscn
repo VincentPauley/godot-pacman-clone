@@ -13,6 +13,7 @@ texture = ExtResource("8_x6sy3")
 texture_region_size = Vector2i(44, 44)
 0:0/0 = 0
 1:0/0 = 0
+1:0/0/custom_data_2 = true
 2:0/0 = 0
 2:0/0/custom_data_1 = true
 2:1/0 = 0
@@ -26,6 +27,8 @@ custom_data_layer_0/name = "player_start"
 custom_data_layer_0/type = 1
 custom_data_layer_1/name = "pellet"
 custom_data_layer_1/type = 1
+custom_data_layer_2/name = "wall"
+custom_data_layer_2/type = 1
 sources/0 = SubResource("TileSetAtlasSource_1fv7x")
 
 [node name="Level1" type="Node2D" unique_id=894020577]

@@ -44,12 +44,6 @@ func _process_input_direction() -> void:
 			input_stack.erase(dir) # remove when released
 			
 	
-	
-
-	
-	
-
-
 func _physics_process(delta: float) -> void:
 	_process_input_direction()
 	
@@ -79,5 +73,18 @@ func _physics_process(delta: float) -> void:
 	
 	print("target cell:")
 	print(target_cell)
+	
+	
+	var target_cell_data = tile_layout.get_cell_tile_data(target_cell)
+	
+	if (target_cell_data):
+		var is_pellet = target_cell_data.get_custom_data("wall")
+		
+		print("next tile is wall:")
+		print(is_pellet)
+	
+	#var tile_data = level_layout.get_cell_tile_data(cell)
+	#if tile_data and tile_data.get_custom_data("pellet"):
+	# get_cell_tile_data
 		
 	move_and_slide()
