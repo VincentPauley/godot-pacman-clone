@@ -10,6 +10,8 @@ enum Direction { NONE, UP, DOWN, LEFT, RIGHT }
 var current_direction: Direction = Direction.LEFT
 var queued_direction: Direction = Direction.NONE
 
+var movement_enabled: bool = true
+
 # Pac-Man cannot move in diagonals, only one direction at a time, setting up
 # directions this way rather than allows finite control for that
 const DIRECTION_VECTORS = {
@@ -49,6 +51,18 @@ func _get_tile_center(cell: Vector2i) -> Vector2:
 func _get_current_tile() -> Vector2i:
 	return tile_layout.local_to_map(tile_layout.to_local(global_position))
 	
+func _check_movement_disabled() -> void:
+	var target_tile_data = tile_layout.get_cell_tile_data(target_tile)
+	
+	if (target_tile_data):
+		var targeting_wall = target_tile_data.get_custom_data("wall")
+		if (targeting_wall):
+			movement_enabled = false
+		else:
+			movement_enabled = true
+	else:
+		movement_enabled = true
+	
 func _run_tile_movement_check() -> void:
 	print("tile movement check...")
 	# player is close enough to next tile center, move them to exact center
@@ -58,8 +72,12 @@ func _run_tile_movement_check() -> void:
 	current_tile = target_tile
 	target_tile = _get_next_tile()
 	target_tile_center = _get_tile_center(target_tile)
+	_check_movement_disabled()
 	
-	print(target_tile_center)
+	# up next: figure out how to get movement disabled when target tile is a wall
+	
+	print('target tile:')
+	print(target_tile)
 	
 	# at this point the user has reached close enough to their target tile and we will do a number
 	# of tasks. and target
@@ -98,26 +116,9 @@ func _physics_process(delta: float) -> void:
 	if (global_position.distance_to(target_tile_center) < 1):
 		_run_tile_movement_check()
 	
-	if current_direction != Direction.NONE:
+	if current_direction != Direction.NONE and movement_enabled:
 		var movement_vector = Vector2(DIRECTION_VECTORS[current_direction])
 		global_position += movement_vector * SPEED * delta
 		
-	#var current_cell = _get_current_tile()
-	#
-	#print("current cell:")
-	#print(current_cell)
-	#
-	#var target_cell: Vector2i = current_cell + DIRECTION_VECTORS[current_direction]
-	#
-	#print("target cell:")
-	#print(target_cell)
-	#
-	#var target_cell_data = tile_layout.get_cell_tile_data(target_cell)
-	#
-	#if (target_cell_data):
-		#var is_pellet = target_cell_data.get_custom_data("wall")
-		#
-		#print("next tile is wall:")
-		#print(is_pellet)
 	
 	move_and_slide()
