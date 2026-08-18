@@ -50,7 +50,7 @@ func _get_tile_center(cell: Vector2i) -> Vector2:
 # use the tilemap and player's position (by origin) to determine the tile they are currently over
 func _get_current_tile() -> Vector2i:
 	return tile_layout.local_to_map(tile_layout.to_local(global_position))
-	
+
 func _check_movement_disabled() -> void:
 	var target_tile_data = tile_layout.get_cell_tile_data(target_tile)
 	
