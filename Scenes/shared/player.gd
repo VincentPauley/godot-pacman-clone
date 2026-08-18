@@ -62,6 +62,11 @@ func _check_movement_disabled() -> void:
 			movement_enabled = true
 	else:
 		movement_enabled = true
+		
+func _check_to_update_target_tile() -> void:
+	target_tile = _get_next_tile()
+	target_tile_center = _get_tile_center(target_tile)
+	_check_movement_disabled()
 	
 func _run_tile_movement_check() -> void:
 	print("tile movement check...")
@@ -73,15 +78,6 @@ func _run_tile_movement_check() -> void:
 	target_tile = _get_next_tile()
 	target_tile_center = _get_tile_center(target_tile)
 	_check_movement_disabled()
-	
-	# up next: figure out how to get movement disabled when target tile is a wall
-	
-	print('target tile:')
-	print(target_tile)
-	
-	# at this point the user has reached close enough to their target tile and we will do a number
-	# of tasks. and target
-	# tile becomes current tile. then determine the next target tile.
 
 var input_stack: Array[String] = []
 # this is a really cool solution that forces only the most recently entered input
@@ -112,7 +108,14 @@ func _physics_process(delta: float) -> void:
 			current_direction = Direction.RIGHT
 		elif player_direction_input == 'player_left':
 			current_direction = Direction.LEFT
-			
+		
+	#print('current direction:')
+	#print(current_direction)
+	_check_to_update_target_tile()
+	# need to a way to check if targe_tile should change
+
+	# when player gets really close to the center of target tile move them to it
+	# exactly and block movement if the new target is a wall
 	if (global_position.distance_to(target_tile_center) < 1):
 		_run_tile_movement_check()
 	
