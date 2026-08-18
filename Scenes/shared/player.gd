@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 @export var tile_layout: TileMapLayer
 
-const SPEED = 100.0
+const SPEED = 200.0
 
 enum Direction { NONE, UP, DOWN, LEFT, RIGHT }
 
@@ -30,14 +30,8 @@ var target_tile_center: Vector2
 func _ready() -> void:
 	current_tile = _get_current_tile()
 	target_tile = _get_next_tile()
-	
-	#print('current tile:')
-	#print(current_tile)
-	#print('target tile:')
-	#print(target_tile)
 	target_tile_center = _get_tile_center(target_tile)
-	print('target tile center:')
-	print(target_tile_center)
+	_check_movement_disabled()
 	
 # this should use the direction to determine what the next tile is
 func _get_next_tile() -> Vector2i:
@@ -68,13 +62,30 @@ func _check_to_update_target_tile() -> void:
 	target_tile_center = _get_tile_center(target_tile)
 	_check_movement_disabled()
 	
+# true if the tile adjacent to current_tile in the given direction is open (not a wall)
+func _is_direction_open(dir: Direction) -> bool:
+	var cell = current_tile + DIRECTION_VECTORS[dir]
+	var cell_data = tile_layout.get_cell_tile_data(cell)
+	return not (cell_data and cell_data.get_custom_data("wall"))
+
+# switch to the queued direction if it's open from current_tile, and refresh the target tile
+func _try_commit_queued_direction() -> void:
+	if queued_direction != Direction.NONE and queued_direction != current_direction and _is_direction_open(queued_direction):
+		current_direction = queued_direction
+		target_tile = _get_next_tile()
+		target_tile_center = _get_tile_center(target_tile)
+		_check_movement_disabled()
+
 func _run_tile_movement_check() -> void:
-	print("tile movement check...")
 	# player is close enough to next tile center, move them to exact center
 	global_position = _get_tile_center(target_tile)
 
-	# player has reached the target tile, it now becomes current tile. and we reset target
+	# player has reached the target tile, it now becomes current tile
 	current_tile = target_tile
+
+	# prefer the queued direction if it's now open, otherwise keep going straight
+	_try_commit_queued_direction()
+
 	target_tile = _get_next_tile()
 	target_tile_center = _get_tile_center(target_tile)
 	_check_movement_disabled()
@@ -99,25 +110,24 @@ func _physics_process(delta: float) -> void:
 	if input_stack.size():
 		var player_direction_input = input_stack.back()
 		
-		# set current direction
+		# only record the desired direction here; actual travel direction is
+		# committed in _run_tile_movement_check once a tile center is reached
 		if player_direction_input == 'player_down':
-			current_direction = Direction.DOWN
+			queued_direction = Direction.DOWN
 		elif player_direction_input == 'player_up':
-			current_direction = Direction.UP
+			queued_direction = Direction.UP
 		elif player_direction_input == 'player_right':
-			current_direction = Direction.RIGHT
+			queued_direction = Direction.RIGHT
 		elif player_direction_input == 'player_left':
-			current_direction = Direction.LEFT
-		
-	#print('current direction:')
-	#print(current_direction)
-	_check_to_update_target_tile()
-	# need to a way to check if targe_tile should change
+			queued_direction = Direction.LEFT
 
 	# when player gets really close to the center of target tile move them to it
 	# exactly and block movement if the new target is a wall
 	if (global_position.distance_to(target_tile_center) < 1):
 		_run_tile_movement_check()
+	elif not movement_enabled:
+		# stopped at a wall; allow turning away without waiting to reach a tile center
+		_try_commit_queued_direction()
 	
 	if current_direction != Direction.NONE and movement_enabled:
 		var movement_vector = Vector2(DIRECTION_VECTORS[current_direction])
