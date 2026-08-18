@@ -41,3 +41,10 @@ Resolution: 836X836
 
 remake wall tiles to be smaller visually but make collision shape the full
 44. this way characters can be 44 and have the space needed to move.
+
+
+## Challenges
+
+- need to run the tile movement check at one specific point per tile, not every frame. Store result
+so it doesn't get re-run
+- move grid movement to a separate script so that ghosts can use the same logic

@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 @export var tile_layout: TileMapLayer
 
-const SPEED = 15.0
+const SPEED = 100.0
 
 enum Direction { NONE, UP, DOWN, LEFT, RIGHT }
 
@@ -21,14 +21,49 @@ const DIRECTION_VECTORS = {
 
 var direction = Vector2i(-1, 0)
 
-func _ready() -> void:
-	pass
+var current_tile: Vector2i
+var target_tile: Vector2i
+var target_tile_center: Vector2
 
+func _ready() -> void:
+	current_tile = _get_current_tile()
+	target_tile = _get_next_tile()
 	
+	#print('current tile:')
+	#print(current_tile)
+	#print('target tile:')
+	#print(target_tile)
+	target_tile_center = _get_tile_center(target_tile)
+	print('target tile center:')
+	print(target_tile_center)
 	
-# use the tilemap and player's local position to determine the tile they are currently over
+# this should use the direction to determine what the next tile is
+func _get_next_tile() -> Vector2i:
+	return current_tile + DIRECTION_VECTORS[current_direction]
+
+# world-space position of the center of the given tile cell
+func _get_tile_center(cell: Vector2i) -> Vector2:
+	return tile_layout.to_global(tile_layout.map_to_local(cell))
+
+# use the tilemap and player's position (by origin) to determine the tile they are currently over
 func _get_current_tile() -> Vector2i:
 	return tile_layout.local_to_map(tile_layout.to_local(global_position))
+	
+func _run_tile_movement_check() -> void:
+	print("tile movement check...")
+	# player is close enough to next tile center, move them to exact center
+	global_position = _get_tile_center(target_tile)
+
+	# player has reached the target tile, it now becomes current tile. and we reset target
+	current_tile = target_tile
+	target_tile = _get_next_tile()
+	target_tile_center = _get_tile_center(target_tile)
+	
+	print(target_tile_center)
+	
+	# at this point the user has reached close enough to their target tile and we will do a number
+	# of tasks. and target
+	# tile becomes current tile. then determine the next target tile.
 
 var input_stack: Array[String] = []
 # this is a really cool solution that forces only the most recently entered input
@@ -59,32 +94,30 @@ func _physics_process(delta: float) -> void:
 			current_direction = Direction.RIGHT
 		elif player_direction_input == 'player_left':
 			current_direction = Direction.LEFT
+			
+	if (global_position.distance_to(target_tile_center) < 1):
+		_run_tile_movement_check()
 	
 	if current_direction != Direction.NONE:
 		var movement_vector = Vector2(DIRECTION_VECTORS[current_direction])
 		global_position += movement_vector * SPEED * delta
 		
-	var current_cell = _get_current_tile()
+	#var current_cell = _get_current_tile()
+	#
+	#print("current cell:")
+	#print(current_cell)
+	#
+	#var target_cell: Vector2i = current_cell + DIRECTION_VECTORS[current_direction]
+	#
+	#print("target cell:")
+	#print(target_cell)
+	#
+	#var target_cell_data = tile_layout.get_cell_tile_data(target_cell)
+	#
+	#if (target_cell_data):
+		#var is_pellet = target_cell_data.get_custom_data("wall")
+		#
+		#print("next tile is wall:")
+		#print(is_pellet)
 	
-	print("current cell:")
-	print(current_cell)
-	
-	var target_cell: Vector2i = current_cell + DIRECTION_VECTORS[current_direction]
-	
-	print("target cell:")
-	print(target_cell)
-	
-	
-	var target_cell_data = tile_layout.get_cell_tile_data(target_cell)
-	
-	if (target_cell_data):
-		var is_pellet = target_cell_data.get_custom_data("wall")
-		
-		print("next tile is wall:")
-		print(is_pellet)
-	
-	#var tile_data = level_layout.get_cell_tile_data(cell)
-	#if tile_data and tile_data.get_custom_data("pellet"):
-	# get_cell_tile_data
-		
 	move_and_slide()
