@@ -28,6 +28,8 @@ func _place_ghosts_on_starting_positions(ghost_cells: Array[Vector2i]) -> void:
 	for cell in ghost_cells:
 		var generated_ghost = ghost.instantiate()
 		generated_ghost.position = level_layout.map_to_local(cell)
+		# notice ghost doesn't export tile_layout, this is a property of character.gd which ghost inherits
+		generated_ghost.tile_layout = level_layout
 		level_layout.erase_cell(cell)
 		add_child(generated_ghost)
 	

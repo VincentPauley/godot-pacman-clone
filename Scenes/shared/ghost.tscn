@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://bglry7s1l0vdn"]
 
+[ext_resource type="Script" uid="uid://c6a1w3p74i8t0" path="res://Scenes/shared/ghost.gd" id="1_esgjg"]
 [ext_resource type="Texture2D" uid="uid://bliptvdyex7x7" path="res://Assets/ghost.png" id="1_xk0xc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lhbp4"]
@@ -7,6 +8,7 @@ radius = 13.0
 height = 40.0
 
 [node name="Ghost" type="CharacterBody2D" unique_id=1914046037]
+script = ExtResource("1_esgjg")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=307208635]
 texture = ExtResource("1_xk0xc")
