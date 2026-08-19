@@ -12,8 +12,8 @@ var queued_direction: Direction = Direction.NONE
 
 var movement_enabled: bool = true
 
-# Pac-Man cannot move in diagonals, only one direction at a time, setting up
-# directions this way rather than allows finite control for that
+# Pac-Man can only move in the 4 basic directions, only one direction at a time. Storying
+# those directions as the simplest vectors possible allow for movement to be calculates
 const DIRECTION_VECTORS = {
 	Direction.UP: Vector2i(0, -1),
 	Direction.DOWN: Vector2i(0, 1),
@@ -76,6 +76,9 @@ func _try_commit_queued_direction() -> void:
 		target_tile_center = _get_tile_center(target_tile)
 		_check_movement_disabled()
 
+# NOTE: key concept here, direction is only set at a tile center when a decision
+# gets made.  The player input determines a queue and the _try_commit_queued_direction
+# function actually sets it.
 func _run_tile_movement_check() -> void:
 	# player is close enough to next tile center, move them to exact center
 	global_position = _get_tile_center(target_tile)
