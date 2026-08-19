@@ -106,7 +106,7 @@ func _process_input_direction() -> void:
 		elif Input.is_action_just_released(dir):
 			input_stack.erase(dir) # remove when released
 			
-	
+
 func _physics_process(delta: float) -> void:
 	_process_input_direction()
 	
