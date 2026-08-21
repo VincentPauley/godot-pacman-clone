@@ -10,16 +10,32 @@ extends Node2D
 var score = 0
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
 	var tiles_by_type = get_tiles_by_type()
 	
+	#_toggle_pause()
 	_place_pellet_scenes(tiles_by_type['pellet_cells'])
 	_place_player_at_start(tiles_by_type['player_start_cells'][0])
 	_place_ghosts_on_starting_positions(tiles_by_type['ghost_start_cells'])
+
+
+func _toggle_pause() -> void:
+	get_tree().paused = not get_tree().paused
+	print("paused:", get_tree().paused)
+	
+	HUD.toggle_pause_menu()
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.is_action_pressed("ui_cancel") or event.keycode == KEY_ESCAPE:
+			_toggle_pause()
 
 # place tiles on appropriate cells and remove placeholders
 func _place_pellet_scenes(pellet_cells: Array[Vector2i]) -> void:
 	for pellet_cell in pellet_cells:
 		var pellet_scene_insert = pellet_scene.instantiate()
+		pellet_scene_insert.process_mode = Node.PROCESS_MODE_PAUSABLE
 		pellet_scene_insert.position = level_layout.map_to_local(pellet_cell)
 		level_layout.erase_cell(pellet_cell)
 		add_child(pellet_scene_insert)
@@ -27,6 +43,7 @@ func _place_pellet_scenes(pellet_cells: Array[Vector2i]) -> void:
 func _place_ghosts_on_starting_positions(ghost_cells: Array[Vector2i]) -> void:
 	for cell in ghost_cells:
 		var generated_ghost = ghost.instantiate()
+		generated_ghost.process_mode = Node.PROCESS_MODE_PAUSABLE
 		generated_ghost.position = level_layout.map_to_local(cell)
 		# notice ghost doesn't export tile_layout, this is a property of character.gd which ghost inherits
 		generated_ghost.tile_layout = level_layout
@@ -36,6 +53,7 @@ func _place_ghosts_on_starting_positions(ghost_cells: Array[Vector2i]) -> void:
 # expect single player start cell and place a player on it
 func _place_player_at_start(start_cell: Vector2i) -> void:
 	var dynamic_player = player.instantiate()
+	dynamic_player.process_mode = Node.PROCESS_MODE_PAUSABLE
 	dynamic_player.position = level_layout.map_to_local(start_cell)
 	# for this game player scene needs to know the layout to understand movement capabilities
 	dynamic_player.tile_layout = level_layout

@@ -56,7 +56,7 @@ func _check_movement_disabled() -> void:
 			movement_enabled = true
 	else:
 		movement_enabled = true
-		
+
 func _check_to_update_target_tile() -> void:
 	target_tile = _get_next_tile()
 	target_tile_center = _get_tile_center(target_tile)

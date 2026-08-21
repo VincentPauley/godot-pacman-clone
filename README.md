@@ -44,4 +44,23 @@ remake wall tiles to be smaller visually but make collision shape the full
 
 ## Next Up
 
-- get the ghost up, and make a separate script to handle grid movement. Once it works make the player move with that same script.
+[ ] - pause game
+
+[ ] - start up countdown
+
+
+## Feature Add List
+
+
+[ ] - enemy AI will always go straight until they hit a wall. make them understand intersections and make decision their as well for
+      more variety.
+
+[ ] - enemy and player animations
+
+[ ] - power pellets
+
+[ ] - teleporter paths
+
+[ ] - fruits
+
+[ ] - controls in pause menu
