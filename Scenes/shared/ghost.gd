@@ -3,25 +3,40 @@ extends Character
 # This class controls what the enemies and player have in common, the way they
 # are allowed to move within the level restricted by walls.
 
-var SPEED = 75
+var SPEED = 100
 
 var current_direction: Direction = Direction.LEFT
-var movement_allowed = true
 
 func _ready() -> void:
 	super.init_current_tile(global_position)
 	super.set_target_tile(current_direction)
 	
 func _find_new_direction() -> Direction:
-	print("Direction.UP: ", Direction.UP) # 1
-	print("Direction.DOWN: ", Direction.DOWN ) # 2
-	print("Direction.LEFT: ", Direction.LEFT ) # 3
-	print("Direction.RIGHT: ", Direction.RIGHT ) # 4
+	var potential_directions = []
 	
+	if (current_direction == Direction.UP):
+		potential_directions = [Direction.LEFT, Direction.RIGHT]
+		
+	if (current_direction == Direction.DOWN):
+		potential_directions = [Direction.LEFT, Direction.RIGHT]
+		
 	if (current_direction == Direction.LEFT):
-		return [Direction.DOWN, Direction.UP].pick_random()
-	print("current_direction: ", current_direction)
-	return current_direction
+		potential_directions = [Direction.DOWN, Direction.UP]
+	
+	if (current_direction == Direction.RIGHT):
+		potential_directions = [Direction.DOWN, Direction.UP]
+		
+	potential_directions.shuffle()
+		
+	var potential_tile = current_tile + DIRECTION_VECTORS[potential_directions[0]]
+		
+	var fist_available = super.check_tile_available(potential_tile)
+		
+	if (fist_available):
+		return potential_directions[0]
+	else:
+		return potential_directions[1]
+
 	
 
 func _physics_process(delta: float) -> void:
@@ -32,25 +47,16 @@ func _physics_process(delta: float) -> void:
 		global_position = target_tile_center
 		_reset_tiles(current_direction)
 		
-		#print('update')
-		#print("Current Tile: ", current_tile)
-		#print("Target Tile: ", target_tile)
-		
 		var target_available = super.check_tile_available(target_tile)
 
 		if (!target_available):
-			movement_allowed = false
-			
-			print('had to stop')
 			var new_direction = _find_new_direction()
-			
 			current_direction = new_direction
-			movement_allowed = true
+			super.set_target_tile(current_direction)
+	
 
-
-	if (movement_allowed):
-		var movement_vector = Vector2(DIRECTION_VECTORS[current_direction])
-		global_position += movement_vector * SPEED * delta
+	var movement_vector = Vector2(DIRECTION_VECTORS[current_direction])
+	global_position += movement_vector * SPEED * delta
 	
 
 	
