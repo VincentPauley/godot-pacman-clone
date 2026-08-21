@@ -34,20 +34,22 @@ func _reset_tiles(current_direction: Direction) -> void:
 func _find_tile_center(tile_cell: Vector2i) -> Vector2:
 	return tile_layout.to_global(tile_layout.map_to_local(tile_cell))
 
-# can probably make a shared _target_tile_available() 
-# function that
-# 1. moves character to the center of target tile.
-# 2. updates target tile based on direction
-# 3. returns bool representing if the tile is OK to move into or not,
-
 func set_target_tile(current_direction: Direction) -> void:
 	target_tile = current_tile + DIRECTION_VECTORS[current_direction]
 	target_tile_center = _find_tile_center(target_tile)
 
-# Called when the node enters the scene tree for the first time.
-#func _ready() -> void:
-	#print("Character class ready...")
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+# all characters are bound within walls and cannot go through them. This returns
+# wheather or not a specific tile is available based on the data of the tile.
+func check_tile_available(tile: Vector2i) -> bool:
+	var tile_data = tile_layout.get_cell_tile_data(tile)
+	
+	if (tile_data):
+		var is_wall = tile_data.get_custom_data("wall")
+		
+		if (is_wall):
+			return false
+		else:
+			return true
+		
+	print("error: no tile data for ", tile)
+	return true
