@@ -7,7 +7,22 @@ var SPEED = 100
 
 var current_direction: Direction = Direction.LEFT
 
+func _on_collision_shape_entered(collider: Node) -> void:
+	if collider.is_in_group("ghosts"):
+		return
+
+	if collider is CharacterBody2D:
+		print("ghost hit CharacterBody2D: ", collider.name)
+		if (collider.name):
+			print('killed player!')
+
 func _ready() -> void:
+	add_to_group("ghosts")
+	for other in get_tree().get_nodes_in_group("ghosts"):
+		if other != self and other is PhysicsBody2D:
+			add_collision_exception_with(other)
+			other.add_collision_exception_with(self)
+
 	super.init_current_tile(global_position)
 	super.set_target_tile(current_direction)
 	
@@ -65,3 +80,9 @@ func _physics_process(delta: float) -> void:
 # change in direction
 
 	move_and_slide()
+
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		if collider is Node:
+			_on_collision_shape_entered(collider)
