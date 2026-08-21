@@ -12,6 +12,17 @@ func _ready() -> void:
 	super.init_current_tile(global_position)
 	super.set_target_tile(current_direction)
 	
+func _find_new_direction() -> Direction:
+	print("Direction.UP: ", Direction.UP) # 1
+	print("Direction.DOWN: ", Direction.DOWN ) # 2
+	print("Direction.LEFT: ", Direction.LEFT ) # 3
+	print("Direction.RIGHT: ", Direction.RIGHT ) # 4
+	
+	if (current_direction == Direction.LEFT):
+		return [Direction.DOWN, Direction.UP].pick_random()
+	print("current_direction: ", current_direction)
+	return current_direction
+	
 
 func _physics_process(delta: float) -> void:
 	
@@ -29,6 +40,12 @@ func _physics_process(delta: float) -> void:
 
 		if (!target_available):
 			movement_allowed = false
+			
+			print('had to stop')
+			var new_direction = _find_new_direction()
+			
+			current_direction = new_direction
+			movement_allowed = true
 
 
 	if (movement_allowed):

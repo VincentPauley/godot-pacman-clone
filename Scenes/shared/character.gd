@@ -51,5 +51,4 @@ func check_tile_available(tile: Vector2i) -> bool:
 		else:
 			return true
 		
-	print("error: no tile data for ", tile)
 	return true
