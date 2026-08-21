@@ -1,5 +1,7 @@
 extends Node2D
 
+signal player_killed
+
 @export var pellet_scene: PackedScene # < reference pellet.tscn in inspector
 @export var player: PackedScene
 @export var ghost: PackedScene
@@ -14,11 +16,18 @@ func _ready() -> void:
 
 	var tiles_by_type = get_tiles_by_type()
 	
-	#_toggle_pause()
+	# _toggle_pause()
 	_place_pellet_scenes(tiles_by_type['pellet_cells'])
 	_place_player_at_start(tiles_by_type['player_start_cells'][0])
 	_place_ghosts_on_starting_positions(tiles_by_type['ghost_start_cells'])
 
+func handle_player_killed() -> void:
+	print('I am the level and I was told the player has died.')
+	player_killed.emit()
+
+func _register_player_killed_listener(node: Node) -> void:
+	if node.has_method("_on_player_killed"):
+		player_killed.connect(Callable(node, "_on_player_killed"))
 
 func _toggle_pause() -> void:
 	get_tree().paused = not get_tree().paused
@@ -49,6 +58,7 @@ func _place_ghosts_on_starting_positions(ghost_cells: Array[Vector2i]) -> void:
 		generated_ghost.tile_layout = level_layout
 		level_layout.erase_cell(cell)
 		add_child(generated_ghost)
+		_register_player_killed_listener(generated_ghost)
 	
 # expect single player start cell and place a player on it
 func _place_player_at_start(start_cell: Vector2i) -> void:
@@ -59,6 +69,7 @@ func _place_player_at_start(start_cell: Vector2i) -> void:
 	dynamic_player.tile_layout = level_layout
 	level_layout.erase_cell(start_cell)
 	add_child(dynamic_player)
+	_register_player_killed_listener(dynamic_player)
 
 # TODO: project followup: ask if this is typical architecture or not
 # comb layout and distribute all attributes accordingly

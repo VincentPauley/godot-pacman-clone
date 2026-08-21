@@ -1,11 +1,18 @@
 extends Character
 
+@onready var level_node = get_parent()
+
 # This class controls what the enemies and player have in common, the way they
 # are allowed to move within the level restricted by walls.
 
 var SPEED = 100
+var PLAYER_KILLED = false
 
 var current_direction: Direction = Direction.LEFT
+
+func _on_player_killed() -> void:
+	#SPEED = 0
+	PLAYER_KILLED = true
 
 func _on_collision_shape_entered(collider: Node) -> void:
 	if collider.is_in_group("ghosts"):
@@ -14,9 +21,10 @@ func _on_collision_shape_entered(collider: Node) -> void:
 	if collider is CharacterBody2D:
 		print("ghost hit CharacterBody2D: ", collider.name)
 		if (collider.name):
-			print('killed player!')
+			level_node.handle_player_killed()
 
 func _ready() -> void:
+	print('am ghost')
 	add_to_group("ghosts")
 	for other in get_tree().get_nodes_in_group("ghosts"):
 		if other != self and other is PhysicsBody2D:
@@ -55,7 +63,8 @@ func _find_new_direction() -> Direction:
 	
 
 func _physics_process(delta: float) -> void:
-	
+	if (PLAYER_KILLED):
+		return	
 
 	if (global_position.distance_to(target_tile_center) < 3):
 		# align player to target tile center to avoid drift issues

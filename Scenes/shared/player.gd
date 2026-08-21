@@ -11,6 +11,7 @@ var current_direction: Direction = Direction.LEFT
 var queued_direction: Direction = Direction.NONE
 
 var movement_enabled: bool = true
+var PLAYER_KILLED = false
 
 # Pac-Man can only move in the 4 basic directions, only one direction at a time. Storying
 # those directions as the simplest vectors possible allow for movement to be calculates
@@ -26,6 +27,10 @@ var direction = Vector2i(-1, 0)
 var current_tile: Vector2i
 var target_tile: Vector2i
 var target_tile_center: Vector2
+
+func _on_player_killed() -> void:
+	set_physics_process(false)
+	PLAYER_KILLED = true
 
 func _ready() -> void:
 	current_tile = _get_current_tile()
@@ -108,6 +113,10 @@ func _process_input_direction() -> void:
 			
 
 func _physics_process(delta: float) -> void:
+	if (PLAYER_KILLED):
+		return
+	
+	
 	_process_input_direction()
 	
 	if input_stack.size():

@@ -12,6 +12,7 @@ func _ready() -> void:
 	quit_button.pressed.connect(_handle_quit_click)
 #
 func _handle_quit_click() -> void:
+	get_tree().paused = false # < un-pause game to allow main menu to work
 	get_tree().change_scene_to_file("res://Scenes/MainMenu/main-menu.tscn")
 	
 func _handle_resume_click() -> void:
