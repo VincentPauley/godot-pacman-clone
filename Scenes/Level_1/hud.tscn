@@ -5,6 +5,48 @@
 [node name="HUD" type="CanvasLayer" unique_id=600250608]
 script = ExtResource("1_j8xjo")
 
+[node name="GetReadyModal" type="ColorRect" parent="." unique_id=29135946]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 300)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.368709, 0.09696879, 0.3851681, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GetReadyModal" unique_id=363042559]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -41.5
+offset_right = 41.5
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="GetReadyLabel" type="Label" parent="GetReadyModal/VBoxContainer" unique_id=713960484]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 20)
+theme_override_font_sizes/font_size = 24
+text = "Get Ready!"
+
+[node name="Counter" type="Label" parent="GetReadyModal/VBoxContainer" unique_id=1625578419]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 50)
+theme_override_font_sizes/font_size = 54
+text = "3"
+
 [node name="ScoreDisplay" type="HBoxContainer" parent="." unique_id=1051640878]
 offset_right = 40.0
 offset_bottom = 40.0
@@ -56,3 +98,6 @@ text = "Resume"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Quit to Main Menu"
+
+[node name="StartupTimer" type="Timer" parent="." unique_id=117927495]
+unique_name_in_owner = true
