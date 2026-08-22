@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://tftryocqyxuu"]
+
+[ext_resource type="Texture2D" uid="uid://si4yjf3eboi" path="res://Assets/power-pellet-frames.png" id="1_ix12n"]
+[ext_resource type="Script" uid="uid://dsgan34w25ns4" path="res://Scenes/shared/power_pellet.gd" id="1_okfmi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_okfmi"]
+atlas = ExtResource("1_ix12n")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qvjvl"]
+atlas = ExtResource("1_ix12n")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rxiv2"]
+atlas = ExtResource("1_ix12n")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b1t50"]
+atlas = ExtResource("1_ix12n")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bpelf"]
+atlas = ExtResource("1_ix12n")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lj31s"]
+atlas = ExtResource("1_ix12n")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lhbp4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_okfmi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qvjvl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rxiv2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b1t50")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bpelf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lj31s")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lhbp4"]
+radius = 6.0
+
+[node name="PowerPellet" type="Area2D" unique_id=768062462]
+script = ExtResource("1_okfmi")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1949878786]
+unique_name_in_owner = true
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_lhbp4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=223186059]
+shape = SubResource("CircleShape2D_lhbp4")

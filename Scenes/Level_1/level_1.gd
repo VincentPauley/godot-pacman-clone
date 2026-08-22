@@ -5,6 +5,7 @@ signal player_killed
 @export var pellet_scene: PackedScene # < reference pellet.tscn in inspector
 @export var player: PackedScene
 @export var ghost: PackedScene
+@export var power_pellet: PackedScene
 
 @onready var HUD = %HUD
 @onready var level_layout = %LevelLayout
@@ -16,8 +17,11 @@ func _ready() -> void:
 
 	var tiles_by_type = get_tiles_by_type()
 	
+	print('powers: ', tiles_by_type['power_pellet_cells'].size())
+	
 	# _toggle_pause()
 	_place_pellet_scenes(tiles_by_type['pellet_cells'])
+	_place_power_pellet_scenes(tiles_by_type['power_pellet_cells'])
 	_place_player_at_start(tiles_by_type['player_start_cells'][0])
 	_place_ghosts_on_starting_positions(tiles_by_type['ghost_start_cells'])
 
@@ -48,6 +52,16 @@ func _place_pellet_scenes(pellet_cells: Array[Vector2i]) -> void:
 		pellet_scene_insert.position = level_layout.map_to_local(pellet_cell)
 		level_layout.erase_cell(pellet_cell)
 		add_child(pellet_scene_insert)
+		
+func _place_power_pellet_scenes(cells: Array[Vector2i]) -> void:
+	for cell in cells:
+		var power_pellet_scene = power_pellet.instantiate()
+		power_pellet_scene.process_mode = Node.PROCESS_MODE_PAUSABLE
+		power_pellet_scene.position = level_layout.map_to_local(cell)
+		level_layout.erase_cell(cell)
+		add_child(power_pellet_scene)
+		
+
 
 func _place_ghosts_on_starting_positions(ghost_cells: Array[Vector2i]) -> void:
 	for cell in ghost_cells:
@@ -77,12 +91,16 @@ func get_tiles_by_type() -> Dictionary:
 	var pellet_cells: Array[Vector2i] = []
 	var player_start_cells: Array[Vector2i] = []
 	var ghost_start_cells: Array[Vector2i] = []
+	var power_pellet_cells: Array[Vector2i] = []
 	
 	for cell in level_layout.get_used_cells():
 		var tile_data = level_layout.get_cell_tile_data(cell)
 		
 		if tile_data and tile_data.get_custom_data("pellet"):
 			pellet_cells.append(cell)
+			
+		if tile_data and tile_data.get_custom_data("power_pellet"):
+			power_pellet_cells.append(cell)
 			
 		if tile_data and tile_data.get_custom_data("player_start"):
 			player_start_cells.append(cell)
@@ -93,7 +111,8 @@ func get_tiles_by_type() -> Dictionary:
 	return {
 		"pellet_cells": pellet_cells,
 		"player_start_cells": player_start_cells,
-		"ghost_start_cells": ghost_start_cells
+		"ghost_start_cells": ghost_start_cells,
+		"power_pellet_cells": power_pellet_cells
 	}
 
 func handle_pellet_pickup() -> void:

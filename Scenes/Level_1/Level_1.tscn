@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dx2rb7nc0jmkh" path="res://Scenes/shared/pellet.tscn" id="2_i4pw6"]
 [ext_resource type="PackedScene" uid="uid://hueg0o3ospxg" path="res://Scenes/shared/player.tscn" id="3_7ke4i"]
 [ext_resource type="PackedScene" uid="uid://bglry7s1l0vdn" path="res://Scenes/shared/ghost.tscn" id="4_q4rrd"]
+[ext_resource type="PackedScene" uid="uid://tftryocqyxuu" path="res://Scenes/shared/PowerPellet.tscn" id="5_x6sy3"]
 [ext_resource type="AudioStream" uid="uid://t0r8jjlypuah" path="res://Assets/New Recording 3.wav" id="6_ukg34"]
 [ext_resource type="PackedScene" uid="uid://ckueg6s04bth4" path="res://Scenes/Level_1/hud.tscn" id="7_q4rrd"]
 [ext_resource type="Texture2D" uid="uid://dp7j4w5ddhxdu" path="res://Assets/layout-tilesheet.png" id="8_x6sy3"]
@@ -20,6 +21,7 @@ texture_region_size = Vector2i(44, 44)
 2:0/0/custom_data_1 = true
 2:1/0 = 0
 1:1/0 = 0
+1:1/0/custom_data_4 = true
 0:1/0 = 0
 0:1/0/custom_data_0 = true
 
@@ -33,6 +35,8 @@ custom_data_layer_2/name = "wall"
 custom_data_layer_2/type = 1
 custom_data_layer_3/name = "ghost"
 custom_data_layer_3/type = 1
+custom_data_layer_4/name = "power_pellet"
+custom_data_layer_4/type = 1
 sources/0 = SubResource("TileSetAtlasSource_1fv7x")
 
 [node name="Level1" type="Node2D" unique_id=894020577]
@@ -40,6 +44,7 @@ script = ExtResource("1_mcxs2")
 pellet_scene = ExtResource("2_i4pw6")
 player = ExtResource("3_7ke4i")
 ghost = ExtResource("4_q4rrd")
+power_pellet = ExtResource("5_x6sy3")
 
 [node name="HUD" parent="." unique_id=600250608 instance=ExtResource("7_q4rrd")]
 unique_name_in_owner = true
